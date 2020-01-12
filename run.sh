@@ -1,0 +1,1 @@
+export POSTGRES_USERNAME=admin POSTGRES_PASSWORD=admin123; docker-compose up -d

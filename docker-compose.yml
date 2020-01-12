@@ -1,0 +1,36 @@
+version: '3.1'
+
+services:
+
+  database:
+    restart: unless-stopped
+    image: postgres:12.1-alpine
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=${POSTGRES_USERNAME:-admin}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-admin123}
+      - POSTGRES_DB=setinblock
+
+    volumes:
+      - /srv/docker/postgresql:/var/lib/postgresql
+
+    networks:
+      - main
+
+  docker-manager:
+    restart: always
+    image: portainer/portainer:1.23.0
+    ports:
+      - "9000:9000"
+
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /srv/docker/portainer:/data
+
+    networks:
+      - main
+
+networks:
+  main:
+    driver: bridge
